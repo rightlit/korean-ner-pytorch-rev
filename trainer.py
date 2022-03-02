@@ -163,7 +163,7 @@ class Trainer(object):
                     preds_list[i].append(slot_label_map[preds[i][j]])
 
         print('args.write_pred:', self.args.write_pred)
-        print('args.pred_dir:', args.pred_dir)
+        print('args.pred_dir:', self.args.pred_dir)
         if self.args.write_pred:
             if not os.path.exists(self.args.pred_dir):
                 os.mkdir(self.args.pred_dir)
