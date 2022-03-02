@@ -44,7 +44,8 @@ class Trainer(object):
         # added by rightlit(2022.03.02)
         args.write_pred = True
         self.args.write_pred = args.write_pred
-        
+        print('Trainer init() args.write_pred:', self.args.write_pred)
+      
         if args.write_pred:
             self.test_texts = get_test_texts(args)
             # Empty the original prediction files
@@ -161,6 +162,8 @@ class Trainer(object):
                     out_label_list[i].append(slot_label_map[out_label_ids[i][j]])
                     preds_list[i].append(slot_label_map[preds[i][j]])
 
+        print('args.write_pred:', self.args.write_pred)
+        print('args.pred_dir:', args.pred_dir)
         if self.args.write_pred:
             if not os.path.exists(self.args.pred_dir):
                 os.mkdir(self.args.pred_dir)
