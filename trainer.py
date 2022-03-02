@@ -40,6 +40,10 @@ class Trainer(object):
         self.model.to(self.device)
 
         self.test_texts = None
+        
+        # added by rightlit(2022.03.02)
+        args.write_pred = True
+        
         if args.write_pred:
             self.test_texts = get_test_texts(args)
             # Empty the original prediction files
