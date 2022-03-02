@@ -110,6 +110,9 @@ class Trainer(object):
             dataset = self.train_dataset
         else:
             raise Exception("Only train, dev and test dataset available")
+            
+        # added by rightlit(2022.03.02)
+        self.args.write_pred = True
 
         eval_sampler = SequentialSampler(dataset)
         eval_dataloader = DataLoader(dataset, sampler=eval_sampler, batch_size=self.args.eval_batch_size)
