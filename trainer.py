@@ -43,6 +43,7 @@ class Trainer(object):
         
         # added by rightlit(2022.03.02)
         args.write_pred = True
+        self.args.write_pred = args.write_pred
         
         if args.write_pred:
             self.test_texts = get_test_texts(args)
