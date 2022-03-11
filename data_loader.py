@@ -253,7 +253,7 @@ def load_examples_test(args, mode, input_str):
     #self._create_examples(self._read_file(os.path.join(self.args.data_dir, file_to_read)), mode)
     
     processor = NaverNerProcessor(args)
-    examples = processor._create_examples(input_str)
+    examples = processor._create_examples(input_str, mode)
 
     word_vocab, char_vocab, _, _ = load_vocab(args)
     label_vocab = load_label_vocab(args)
