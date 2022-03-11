@@ -246,3 +246,33 @@ def load_examples(args, mode):
 
     dataset = TensorDataset(all_word_ids, all_char_ids, all_mask, all_label_ids)
     return dataset
+
+# added by rightlit(2022.03.11)
+def load_examples_test(input_str):
+
+    #self._create_examples(self._read_file(os.path.join(self.args.data_dir, file_to_read)), mode)
+    examples = self._create_examples(input_str)
+
+    word_vocab, char_vocab, _, _ = load_vocab(args)
+    label_vocab = load_label_vocab(args)
+
+    features = convert_examples_to_features(examples,
+                                            args.max_seq_len,
+                                            args.max_word_len,
+                                            word_vocab,
+                                            char_vocab,
+                                            label_vocab)
+
+    # Convert to Tensors and build dataset
+    all_word_ids = torch.tensor([f.word_ids for f in features], dtype=torch.long)
+    all_char_ids = torch.tensor([f.char_ids for f in features], dtype=torch.long)
+    all_mask = torch.tensor([f.mask for f in features], dtype=torch.long)
+    all_label_ids = torch.tensor([f.label_ids for f in features], dtype=torch.long)
+
+    logger.info("all_word_ids.size(): {}".format(all_word_ids.size()))
+    logger.info("all_char_ids.size(): {}".format(all_char_ids.size()))
+    logger.info("all_mask.size(): {}".format(all_mask.size()))
+    logger.info("all_label_ids.size(): {}".format(all_label_ids.size()))
+
+    dataset = TensorDataset(all_word_ids, all_char_ids, all_mask, all_label_ids)
+    return dataset
