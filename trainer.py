@@ -194,7 +194,7 @@ class Trainer(object):
     def test(self, input_dataset):
         
         #dataset = load_examples_test(input_str)
-        dataset = self.input_dataset
+        dataset = input_dataset
         eval_sampler = SequentialSampler(dataset)
         eval_dataloader = DataLoader(dataset, sampler=eval_sampler, batch_size=self.args.eval_batch_size)
         
