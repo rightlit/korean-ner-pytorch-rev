@@ -98,7 +98,7 @@ class Trainer(object):
                     self.evaluate("test", global_step)
 
                 if self.args.save_steps > 0 and global_step % self.args.save_steps == 0:
-                    self.save_model(global_step, epoch)
+                    self.save_model(global_step, epoch+1)
 
         return global_step, tr_loss / global_step
 
@@ -188,7 +188,7 @@ class Trainer(object):
 
         return results
 
-    def save_model(self, global_step, epoch):
+    def save_model(self, global_step, epoch_idx):
         # Save model checkpoint (Overwrite)
         if not os.path.exists(self.args.model_dir):
             os.mkdir(self.args.model_dir)
@@ -196,7 +196,7 @@ class Trainer(object):
         # Save argument
         torch.save(self.args, os.path.join(self.args.model_dir, 'args.pt'))
         # Save model for inference
-        file_name = 'model.pt-' + str(epoch) + 'epoch_' + str(global_step)
+        file_name = 'model.pt-' + str(epoch_idx) + 'epoch_' + str(global_step)
         #torch.save(self.model.state_dict(), os.path.join(self.args.model_dir, 'model.pt'))
         torch.save(self.model.state_dict(), os.path.join(self.args.model_dir, file_name))
         logger.info("Saving model checkpoint to {}".format(os.path.join(self.args.model_dir, 'model.pt')))
