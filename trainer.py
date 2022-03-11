@@ -12,6 +12,8 @@ from data_loader import load_word_matrix
 from utils import set_seed, load_vocab, compute_metrics, show_report, get_labels, get_test_texts
 from model import BiLSTM_CNN_CRF
 
+from data_loader import load_examples_test
+
 logger = logging.getLogger(__name__)
 
 
