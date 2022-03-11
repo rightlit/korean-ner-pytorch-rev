@@ -75,6 +75,9 @@ if __name__ == '__main__':
     parser.add_argument("--no_cuda", action="store_true", help="Avoid using CUDA when available")
     parser.add_argument("--no_w2v", action="store_true", help="Not loading pretrained word vector")
 
+    # added by rightlit(2022.03.11)
+    parser.add_argument("--do_test", action="store_true", help="Whether to run eval on the test set.")
+
     args = parser.parse_args()
 
     main(args)
