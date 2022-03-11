@@ -27,7 +27,8 @@ def main(args):
     # added by rightlit(2022.03.11)
     if args.do_test:
         trainer.load_model()
-        trainer.test("input str")        
+        input_str = input('input : ')
+        trainer.test(input_str) 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
