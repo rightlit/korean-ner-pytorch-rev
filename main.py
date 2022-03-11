@@ -11,9 +11,11 @@ def do_interactive_mode():
     trainer = Trainer(args, None, None, None)
     trainer.load_model()
 
-    while(True):
+    #while(True):
+    if(True):
         input_str = ''
-        input_str = input('input : ')
+        input_str = args.input_text
+        #input_str = input('input : ')
         # ORG-B O O O
         input_words = input_str.split()
         v_tag_list = ['O'] * len(input_words)
@@ -100,6 +102,7 @@ if __name__ == '__main__':
 
     # added by rightlit(2022.03.11)
     parser.add_argument("--do_test", action="store_true", help="Whether to run eval on the test set.")
+    parser.add_argument("--input_text", default="", type=str, help="input data")
 
     args = parser.parse_args()
 
