@@ -22,7 +22,7 @@ def do_interactive_mode():
         print(input_str)
 
         input_texts = []
-        input_texts.append(input_str)
+        input_texts.append(input_words)
 
         input_dataset = load_examples_test(args, mode="test", input_str=input_str)
         trainer.test(input_dataset, input_texts) 
