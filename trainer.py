@@ -191,7 +191,7 @@ class Trainer(object):
     # added by rightlit(2022.03.11)
     def test(self, input_str):
         
-        dataset = load_examples(input_str)
+        dataset = load_examples_test(input_str)
         eval_sampler = SequentialSampler(dataset)
         eval_dataloader = DataLoader(dataset, sampler=eval_sampler, batch_size=self.args.eval_batch_size)
         
