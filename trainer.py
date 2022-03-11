@@ -191,7 +191,7 @@ class Trainer(object):
         return results
 
     # added by rightlit(2022.03.11)
-    def test(self, input_dataset):
+    def test(self, input_dataset, input_texts):
         
         #dataset = load_examples_test(input_str)
         dataset = input_dataset
@@ -246,7 +246,8 @@ class Trainer(object):
                     preds_list[i].append(slot_label_map[preds[i][j]])
 
         #print predition output
-        for text, true_label, pred_label in zip(self.test_texts, out_label_list, preds_list):
+        #for text, true_label, pred_label in zip(self.test_texts, out_label_list, preds_list):
+        for text, true_label, pred_label in zip(input_texts, out_label_list, preds_list):
             for t, tl, pl in zip(text, true_label, pred_label):
                 print("{} {} {}".format(t, tl, pl))
             print("")

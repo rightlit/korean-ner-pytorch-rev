@@ -20,9 +20,12 @@ def do_interactive_mode():
         v_tag_str = ' '.join(v_tag_list)
         input_str = input_str + '\t' + v_tag_str
         print(input_str)
-        
+
+        input_texts = []
+        input_texts.append(input_str)
+
         input_dataset = load_examples_test(args, mode="test", input_str=input_str)
-        trainer.test(input_dataset) 
+        trainer.test(input_dataset, input_texts) 
         
 
 def main(args):
