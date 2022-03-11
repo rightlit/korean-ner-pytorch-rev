@@ -4,7 +4,24 @@ from trainer import Trainer
 from utils import init_logger, build_vocab, download_w2v
 from data_loader import load_examples
 from data_loader import load_examples_test
+import sys
 
+def do_interactive_mode():
+    
+    trainer = Trainer(args, None, None, None)
+
+    while(True):
+        input_str = input('input : ')
+        # ORG-B O O O
+        input_words = input_str.split()
+        v_tag_list = ['O'] * len(input_words)
+        v_tag_str = ' '.join(v_tag_list)
+        input_str = input_str + '\t' + v_tag_str
+        print(input_str)
+        
+        input_dataset = load_examples_test(args, mode="test", input_str=input_str)
+        trainer.test(input_dataset) 
+        
 
 def main(args):
     init_logger()
@@ -12,6 +29,12 @@ def main(args):
         download_w2v(args)
     build_vocab(args)
 
+    # added by rightlit(2022.03.11)
+    if args.do_test:
+        trainer.load_model()
+        do_interactive_mode()
+        sys.exit()
+        
     train_dataset = load_examples(args, mode="train")
     dev_dataset = None
     test_dataset = load_examples(args, mode="test")
@@ -25,20 +48,6 @@ def main(args):
         trainer.load_model()
         trainer.evaluate("test", "eval")
 
-    # added by rightlit(2022.03.11)
-    if args.do_test:
-        trainer.load_model()
-        
-        input_str = input('input : ')
-        # ORG-B O O O
-        input_words = input_str.split()
-        v_tag_list = ['O'] * len(input_words)
-        v_tag_str = ' '.join(v_tag_list)
-        input_str = input_str + '\t' + v_tag_str
-        print(input_str)
-        
-        input_dataset = load_examples_test(args, mode="test", input_str=input_str)
-        trainer.test(input_dataset) 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
