@@ -248,7 +248,7 @@ def load_examples(args, mode):
     return dataset
 
 # added by rightlit(2022.03.11)
-def load_examples_test(input_str):
+def load_examples_test(args, mode, input_str):
 
     #self._create_examples(self._read_file(os.path.join(self.args.data_dir, file_to_read)), mode)
     
