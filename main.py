@@ -9,6 +9,7 @@ import sys
 def do_interactive_mode():
     
     trainer = Trainer(args, None, None, None)
+    trainer.load_model()
 
     while(True):
         input_str = input('input : ')
@@ -31,7 +32,6 @@ def main(args):
 
     # added by rightlit(2022.03.11)
     if args.do_test:
-        trainer.load_model()
         do_interactive_mode()
         sys.exit()
         
