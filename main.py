@@ -3,6 +3,7 @@ import argparse
 from trainer import Trainer
 from utils import init_logger, build_vocab, download_w2v
 from data_loader import load_examples
+from data_loader import load_examples_test
 
 
 def main(args):
@@ -28,7 +29,8 @@ def main(args):
     if args.do_test:
         trainer.load_model()
         input_str = input('input : ')
-        trainer.test(input_str) 
+        input_dataset = load_examples_test(input_str)
+        trainer.test(input_dataset) 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
