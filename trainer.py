@@ -188,6 +188,70 @@ class Trainer(object):
 
         return results
 
+    def test(self, mode, step):
+            
+        # added by rightlit(2022.03.02)
+        self.args.write_pred = True
+
+        eval_loss = 0.0
+        nb_eval_steps = 0
+        preds = None
+        out_label_ids = None
+
+        for batch in tqdm(eval_dataloader, desc="Evaluating"):
+            self.model.eval()
+            batch = tuple(t.to(self.device) for t in batch)
+            with torch.no_grad():
+                inputs = {'word_ids': batch[0],
+                          'char_ids': batch[1],
+                          'mask': batch[2],
+                          'label_ids': batch[3]}
+                outputs = self.model(**inputs)
+                tmp_eval_loss, logits = outputs[:2]
+
+                eval_loss += tmp_eval_loss.mean().item()
+            nb_eval_steps += 1
+
+            # Slot prediction
+            if preds is None:
+                # decode() in `torchcrf` returns list with best index directly
+                preds = np.array(self.model.crf.decode(logits, mask=inputs['mask'].byte()))
+                out_label_ids = inputs["label_ids"].detach().cpu().numpy()
+            else:
+                preds = np.append(preds, np.array(self.model.crf.decode(logits, mask=inputs['mask'].byte())), axis=0)
+                out_label_ids = np.append(out_label_ids, inputs["label_ids"].detach().cpu().numpy(), axis=0)
+
+        eval_loss = eval_loss / nb_eval_steps
+        results = {
+            "loss": eval_loss
+        }
+
+        # Slot result
+        slot_label_map = {i: label for i, label in enumerate(self.label_lst)}
+        out_label_list = [[] for _ in range(out_label_ids.shape[0])]
+        preds_list = [[] for _ in range(out_label_ids.shape[0])]
+
+        for i in range(out_label_ids.shape[0]):
+            for j in range(out_label_ids.shape[1]):
+                if out_label_ids[i, j] != self.pad_token_label_id:
+                    out_label_list[i].append(slot_label_map[out_label_ids[i][j]])
+                    preds_list[i].append(slot_label_map[preds[i][j]])
+
+        print('args.write_pred:', self.args.write_pred)
+        print('args.pred_dir:', self.args.pred_dir)
+        if self.args.write_pred:
+            if not os.path.exists(self.args.pred_dir):
+                os.mkdir(self.args.pred_dir)
+
+            with open(os.path.join(self.args.pred_dir, "pred_{}.txt".format(step)), "w", encoding="utf-8") as f:
+                for text, true_label, pred_label in zip(self.test_texts, out_label_list, preds_list):
+                    for t, tl, pl in zip(text, true_label, pred_label):
+                        f.write("{} {} {}\n".format(t, tl, pl))
+                    f.write("\n")
+
+        return results
+    
+    
     def save_model(self, global_step, epoch_idx):
         # Save model checkpoint (Overwrite)
         if not os.path.exists(self.args.model_dir):
