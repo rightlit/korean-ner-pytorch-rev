@@ -12,6 +12,7 @@ def do_interactive_mode():
     trainer.load_model()
 
     while(True):
+        input_str = ''
         input_str = input('input : ')
         # ORG-B O O O
         input_words = input_str.split()
