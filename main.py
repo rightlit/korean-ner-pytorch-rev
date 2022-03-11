@@ -29,7 +29,7 @@ def main(args):
     if args.do_test:
         trainer.load_model()
         input_str = input('input : ')
-        input_dataset = load_examples_test(args, mode="test", input_str)
+        input_dataset = load_examples_test(args, mode="test", input_str=input_str)
         trainer.test(input_dataset) 
 
 if __name__ == '__main__':
