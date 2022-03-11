@@ -24,6 +24,10 @@ def main(args):
         trainer.load_model()
         trainer.evaluate("test", "eval")
 
+    # added by rightlit(2022.03.11)
+    if args.do_test:
+        trainer.load_model()
+        trainer.test("input str")        
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
