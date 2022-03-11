@@ -28,12 +28,15 @@ def main(args):
     # added by rightlit(2022.03.11)
     if args.do_test:
         trainer.load_model()
+        
         input_str = input('input : ')
         # ORG-B O O O
         input_words = input_str.split()
         v_tag_list = ['O'] * len(input_words)
         v_tag_str = ' '.join(v_tag_list)
         input_str = input_str + '\t' + v_tag_str
+        print(input_str)
+        
         input_dataset = load_examples_test(args, mode="test", input_str=input_str)
         trainer.test(input_dataset) 
 
