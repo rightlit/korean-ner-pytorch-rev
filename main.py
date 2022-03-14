@@ -13,20 +13,26 @@ def do_interactive_mode():
 
     #while(True):
     if(True):
-        input_str = ''
-        input_str = args.input_text
+        input_text = ''
+        input_text = args.input_text
         #input_str = input('input : ')
-        # ORG-B O O O
-        input_words = input_str.split()
-        v_tag_list = ['O'] * len(input_words)
-        v_tag_str = ' '.join(v_tag_list)
-        input_str = input_str + '\t' + v_tag_str
-        print(input_str)
-
+        
         input_texts = []
-        input_texts.append(input_words)
+        input_datalist = []
+        # sentence delimiter
+        for input_str in input_text.split('|'):
+            # ORG-B O O O
+            input_words = input_str.split()
+            v_tag_list = ['O'] * len(input_words)
+            v_tag_str = ' '.join(v_tag_list)
+            input_str = input_str + '\t' + v_tag_str
+            print(input_str)
+            input_datalist.append(input_str)
 
-        input_dataset = load_examples_test(args, mode="test", input_str=input_str)
+            input_texts.append(input_words)
+
+        #input_dataset = load_examples_test(args, mode="test", input_str=input_str)
+        input_dataset = load_examples_test(args, mode="test", input_datalist=input_datalist)
         trainer.test(input_dataset, input_texts) 
         
 
