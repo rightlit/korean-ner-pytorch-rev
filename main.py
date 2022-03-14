@@ -28,7 +28,6 @@ def do_interactive_mode():
             input_str = input_str + '\t' + v_tag_str
             print(input_str)
             input_datalist.append(input_str)
-
             input_texts.append(input_words)
 
         #input_dataset = load_examples_test(args, mode="test", input_str=input_str)
